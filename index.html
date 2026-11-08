@@ -4,208 +4,220 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GGBAKERY — 속이 편한 빵</title>
-  <meta name="description" content="GGBAKERY는 16시간 저온숙성 반죽으로, 하루에 한 번만 속이 편한 빵을 굽습니다.">
+  <meta name="description" content="16시간 저온숙성 반죽으로 하루에 한 번 굽는 거제 지지베이커리. 100% 통호밀 깜빠뉴부터 케이크까지.">
   <link rel="canonical" href="https://ggbakery.co.kr/">
   <meta property="og:title" content="GGBAKERY — 속이 편한 빵">
-  <meta property="og:description" content="16시간 저온숙성 · 하루 한 번 굽는 빵 · 100% 통호밀. 매일 먹어도 편안한 빵.">
+  <meta property="og:description" content="16시간 저온숙성 · 하루 한 번 굽는 빵 · 100% 통호밀">
   <meta property="og:url" content="https://ggbakery.co.kr/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://ggbakery.co.kr/images/store/slide-1.jpg">
-  <meta name="theme-color" content="#1f1812">
+  <meta name="theme-color" content="#F3ECE0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="loader" id="loader"><span>GG</span><em>BAKERY</em></div>
+  <div class="promo">
+    <div class="promo-track"><span>매일 아침 하루 한 번만 굽습니다</span><span>16시간 저온숙성</span><span>100% 통호밀 깜빠뉴</span><span>온라인 주문 Coming Soon</span><span>매일 아침 하루 한 번만 굽습니다</span><span>16시간 저온숙성</span><span>100% 통호밀 깜빠뉴</span><span>온라인 주문 Coming Soon</span></div>
+  </div>
 
   <header class="nav" id="nav">
-    <a href="#top" class="brand">GG<span>BAKERY</span></a>
-    <nav class="menu" id="menu">
-      <a href="#story">Story</a>
-      <a href="#promise">Promise</a>
-      <a href="#shop">Shop</a>
-      <a href="#visit">Visit</a>
+    <a href="#top" class="logo" aria-label="GGBAKERY 홈">
+      <svg viewBox="0 0 40 40" width="38" height="38" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="currentColor"/><text x="20" y="26" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="800" font-size="16" fill="var(--flour)">GG</text></svg>
+      <b>GGBAKERY</b>
+    </a>
+    <nav class="links" id="links">
+      <a href="#menu">메뉴</a>
+      <a href="#story">우리 이야기</a>
+      <a href="#stores">매장</a>
     </nav>
-    <button class="cart-btn" id="cartOpen" aria-label="장바구니">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-      <b id="cartCount">0</b>
-    </button>
-    <button class="burger" id="burger" aria-label="메뉴"><i></i><i></i></button>
+    <div class="nav-right">
+      <button class="icon-btn" id="cartOpen" aria-label="장바구니">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 8h14l-1.2 12H6.2L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <i id="cartCount">0</i>
+      </button>
+      <a href="#menu" class="btn btn-red">주문하기</a>
+      <button class="burger" id="burger" aria-label="메뉴 열기"><span></span><span></span></button>
+    </div>
   </header>
 
-  <!-- HERO SLIDER: images/store/slide-1~4.jpg 에 매장 사진을 넣으면 자동 적용 -->
-  <section class="hero" id="top">
-    <div class="swiper hero-swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide" data-bg="images/store/slide-1.jpg">
-          <div class="slide-bg g1"></div>
-          <div class="slide-copy">
-            <p class="eyebrow">Geoje · Korea</p>
-            <h1>속이 편한 빵,<br><em>GGBAKERY</em></h1>
-            <p>16시간의 기다림이 만든 가장 편안한 한 조각</p>
-          </div>
-        </div>
-        <div class="swiper-slide" data-bg="images/store/slide-2.jpg">
-          <div class="slide-bg g2"></div>
-          <div class="slide-copy">
-            <p class="eyebrow">16h Cold Fermentation</p>
-            <h2>16시간 저온숙성,<br><em>시간이 굽는 빵</em></h2>
-            <p>차가운 곳에서 하룻밤, 서두르지 않고 천천히</p>
-          </div>
-        </div>
-        <div class="swiper-slide" data-bg="images/store/slide-3.jpg">
-          <div class="slide-bg g3"></div>
-          <div class="slide-copy">
-            <p class="eyebrow">Baked Once a Day</p>
-            <h2>하루에 한 번,<br><em>그날 구운 빵만</em></h2>
-            <p>아침에 한 번 구워 그날 모두 내어놓습니다</p>
-          </div>
-        </div>
-        <div class="swiper-slide" data-bg="images/store/slide-4.jpg">
-          <div class="slide-bg g4"></div>
-          <div class="slide-copy">
-            <p class="eyebrow">80+ Breads</p>
-            <h2>통호밀 깜빠뉴부터 케이크까지<br><em>여든 가지 빵</em></h2>
-            <a href="#shop" class="btn-line">빵 둘러보기</a>
-          </div>
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Geoje · Since day one, once a day</p>
+        <h1 class="hero-title"><span>속이</span> <span>편한</span> <span class="hl">빵.</span></h1>
+        <p class="hero-sub">16시간 저온숙성한 반죽을<br>매일 아침, 딱 한 번만 굽습니다.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="btn btn-red btn-lg">메뉴 보기</a>
+          <a href="#stores" class="btn btn-ghost btn-lg">매장 찾기</a>
         </div>
       </div>
-      <div class="hero-ui">
-        <div class="hero-count"><b id="heroCur">01</b> / <span>04</span></div>
-        <div class="swiper-pagination"></div>
-        <div class="hero-arrows">
-          <button class="hero-prev" aria-label="이전">←</button>
-          <button class="hero-next" aria-label="다음">→</button>
+      <div class="hero-media">
+        <div class="swiper hero-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="images/store/slide-1.jpg" alt="지지베이커리 진열대"></div>
+            <div class="swiper-slide"><img src="images/store/slide-3.jpg" alt="100% 통호밀 무화과 깜빠뉴"></div>
+            <div class="swiper-slide"><img src="images/store/slide-2.jpg" alt="매일 아침 구운 빵"></div>
+            <div class="swiper-slide"><img src="images/store/slide-4.jpg" alt="100% 통호밀 깜빠뉴"></div>
+          </div>
         </div>
+        <div class="sticker" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><path id="c" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#c">BAKED ONCE A DAY · 16H COLD FERMENTED · </textPath></text></svg>
+          <b>16h</b>
+        </div>
+        <div class="hero-dots"></div>
       </div>
-    </div>
-    <a href="#story" class="scroll-cue"><span>Scroll</span></a>
-  </section>
+    </section>
 
-  <section class="story" id="story">
-    <div class="wrap">
-      <p class="eyebrow reveal">Our Story</p>
-      <h2 class="display reveal">빵을 먹고 나서<br>속이 더부룩하지 않았으면 했습니다.</h2>
-      <div class="story-grid">
-        <p class="reveal">GGBAKERY는 ‘매일 먹어도 편안한 빵’이라는 단 하나의 질문에서 시작했습니다. 빠르게 부풀린 빵 대신, 반죽을 차가운 곳에서 16시간 동안 천천히 숙성시킵니다. 그리고 하루에 딱 한 번, 그날 먹을 만큼만 굽습니다.</p>
-        <p class="reveal">오래 숙성한 반죽은 풍미가 깊고 몸에는 한결 가볍게 닿습니다. 밀가루를 전혀 넣지 않은 100% 통호밀 깜빠뉴, 설탕을 뺀 당뇨빵도 같은 마음으로 만들었습니다.</p>
-      </div>
-    </div>
-    <div class="marquee" aria-hidden="true"><div>16h Cold Fermented · Baked Once a Day · 100% Whole Rye · Gentle on Your Gut · Handmade Cream · 16h Cold Fermented · Baked Once a Day · 100% Whole Rye · Gentle on Your Gut · Handmade Cream ·&nbsp;</div></div>
-  </section>
+    <!-- CATEGORY ICONS -->
+    <section class="cats-wrap">
+      <div class="cats" id="catIcons"></div>
+    </section>
 
-  <section class="promise" id="promise">
-    <div class="wrap">
-      <p class="eyebrow reveal">The GG Promise</p>
-      <h2 class="display reveal">속이 편한 빵의 네 가지 약속</h2>
-      <div class="promise-grid">
-        <article class="reveal"><span>01</span><h3>16시간 저온숙성</h3><p>반죽을 차갑게 오래 숙성해 풍미는 깊게, 속은 편안하게 만듭니다.</p></article>
-        <article class="reveal"><span>02</span><h3>하루에 한 번</h3><p>매일 한 번만 굽고, 그날 구운 빵만 내어놓습니다.</p></article>
-        <article class="reveal"><span>03</span><h3>100% 통호밀</h3><p>밀가루 없이 통밀과 호밀만으로 구운 깜빠뉴와 당뇨빵.</p></article>
-        <article class="reveal"><span>04</span><h3>직접 만드는 맛</h3><p>슈크림, 카라멜, 갈릭소스까지 매장에서 직접 끓이고 만듭니다.</p></article>
+    <!-- NUMBERS -->
+    <section class="numbers" id="story">
+      <div class="container">
+        <h2 class="big-title reveal">시간이 굽고,<br>우리는 기다립니다.</h2>
+        <div class="num-grid">
+          <article class="num reveal"><b data-count="16">0</b><span>시간</span><p>차가운 곳에서 하룻밤. 반죽이 천천히 숙성되며 풍미는 깊게, 속은 편안하게.</p></article>
+          <article class="num reveal"><b data-count="1">0</b><span>번</span><p>하루에 딱 한 번만 굽습니다. 그날 구운 빵만 진열대에 오릅니다.</p></article>
+          <article class="num reveal"><b data-count="100">0</b><span>%</span><p>밀가루 없이 통밀과 호밀만으로. 100% 통호밀 깜빠뉴와 당뇨빵.</p></article>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="shop" id="shop">
-    <div class="wrap">
-      <div class="shop-head">
+    <!-- FEATURE -->
+    <section class="feature">
+      <div class="feature-img reveal-img"><img src="images/store/slide-3.jpg" alt="100% 통호밀 무화과 깜빠뉴" loading="lazy"></div>
+      <div class="feature-copy">
+        <p class="kicker red">Signature</p>
+        <h2 class="big-title reveal">100% 통호밀<br>깜빠뉴</h2>
+        <p class="reveal">밀가루를 한 톨도 넣지 않았습니다. 통밀과 호밀, 그리고 호두나 무화과·크랜베리만으로 고온에서 구워냈어요. 씹을수록 구수하고, 먹고 나서도 속이 편안합니다.</p>
+        <ul class="feature-list reveal">
+          <li><b>호두</b> 4,900원</li>
+          <li><b>무화과 크랜베리</b> 5,100원</li>
+          <li><b>당뇨빵 (무설탕·저염)</b> 4,900원</li>
+        </ul>
+        <button class="btn btn-dark btn-lg reveal" data-jump="grain">깜빠뉴 보러가기</button>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="menu" id="menu">
+      <div class="container">
+        <div class="menu-head">
+          <h2 class="big-title">오늘의 메뉴</h2>
+          <label class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="search" type="search" placeholder="빵 이름으로 찾기">
+          </label>
+        </div>
+      </div>
+      <div class="tabs-bar">
+        <div class="container tabs" id="tabs"></div>
+      </div>
+      <div class="container">
+        <div class="filters">
+          <div class="chips" id="chips"></div>
+          <select id="sort" aria-label="정렬">
+            <option value="default">추천순</option>
+            <option value="best">베스트 먼저</option>
+            <option value="low">낮은 가격순</option>
+            <option value="high">높은 가격순</option>
+          </select>
+        </div>
+        <p class="count" id="count"></p>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <!-- DELIVERY -->
+    <section class="delivery">
+      <div class="container delivery-inner">
         <div>
-          <p class="eyebrow reveal">The Bread Selection</p>
-          <h2 class="display reveal">오늘의 빵을 고르세요</h2>
+          <p class="kicker">Coming Soon</p>
+          <h2 class="big-title">갓 구운 빵,<br>문 앞까지.</h2>
+          <p>온라인 주문 · 택배 배송 · 매장 픽업을 준비하고 있어요.</p>
         </div>
-        <label class="search reveal">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="search" type="search" placeholder="빵 이름, 재료로 검색">
-        </label>
+        <form class="notify" id="notifyForm">
+          <input type="email" required placeholder="이메일 주소">
+          <button class="btn btn-flour">오픈 알림 받기</button>
+        </form>
       </div>
-      <div class="cat-tabs" id="catTabs"></div>
-      <div class="shop-bar">
-        <div class="tag-filter" id="tagFilter"></div>
-        <select id="sort" aria-label="정렬">
-          <option value="default">추천순</option>
-          <option value="best">베스트</option>
-          <option value="low">낮은 가격순</option>
-          <option value="high">높은 가격순</option>
-        </select>
-      </div>
-      <p class="result-count" id="resultCount"></p>
-      <div class="grid" id="grid"></div>
-    </div>
-  </section>
+    </section>
 
-  <section class="delivery">
-    <div class="wrap delivery-inner reveal">
-      <p class="eyebrow">Online Delivery</p>
-      <h2 class="display">갓 구운 빵을 문 앞까지</h2>
-      <p>새벽 배송과 온라인 결제를 준비하고 있습니다. 오픈 소식을 가장 먼저 받아보세요.</p>
-      <form class="notify" id="notifyForm">
-        <input type="email" required placeholder="이메일 주소">
-        <button>알림 신청</button>
-      </form>
-      <span class="badge-soon">Coming Soon</span>
-    </div>
-  </section>
+    <!-- STORES -->
+    <section class="stores" id="stores">
+      <div class="container">
+        <h2 class="big-title reveal">매장</h2>
+        <div class="store-grid">
+          <article class="store reveal">
+            <span class="tag">거제 본점</span>
+            <h3>고현점</h3>
+            <p>경남 거제시 고현로 106 1층</p>
+            <a class="btn btn-dark" href="https://map.naver.com/p/entry/place/1395611620" target="_blank" rel="noopener">네이버 지도</a>
+          </article>
+          <article class="store reveal">
+            <span class="tag">상동</span>
+            <h3>상동점</h3>
+            <p>경남 거제시 거제중앙로 1787</p>
+            <a class="btn btn-dark" href="https://map.naver.com/p/entry/place/2063752075" target="_blank" rel="noopener">네이버 지도</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
 
-  <footer class="footer" id="visit">
-    <div class="wrap footer-grid">
-      <div>
-        <a href="#top" class="brand big">GG<span>BAKERY</span></a>
-        <p class="muted">속이 편한 빵 · Gentle Bread</p>
-      </div>
-      <div>
-        <h4>Visit</h4>
-        <p>상동점 · 경남 거제시 거제중앙로 1787<br>고현점 · 경남 거제시 고현로 106 1층</p>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <p>ggbakery.co.kr</p>
-      </div>
+  <footer class="footer">
+    <div class="container foot-top">
+      <p>속이 편한 빵,<br>하루 한 번.</p>
+      <nav><a href="#menu">메뉴</a><a href="#story">우리 이야기</a><a href="#stores">매장</a></nav>
     </div>
-    <div class="wrap copy">© 2026 GGBAKERY. All rights reserved. · ggbakery.co.kr</div>
+    <div class="wordmark" aria-hidden="true">GGBAKERY</div>
+    <div class="container foot-bottom">© 2026 GGBAKERY · ggbakery.co.kr</div>
   </footer>
 
-  <!-- 상품 상세 모달 -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="modal-dim" data-close></div>
-    <div class="modal-panel" role="dialog" aria-modal="true">
-      <button class="x" data-close aria-label="닫기">×</button>
-      <div class="modal-body" id="modalBody"></div>
+  <!-- 상세 -->
+  <div class="sheet" id="sheet" aria-hidden="true">
+    <div class="dim" data-close></div>
+    <div class="sheet-panel" role="dialog" aria-modal="true">
+      <button class="close" data-close aria-label="닫기">✕</button>
+      <div id="sheetBody"></div>
     </div>
   </div>
 
   <!-- 장바구니 -->
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <div class="drawer-dim" data-dclose></div>
-    <div class="drawer-panel">
-      <div class="drawer-head"><h3>장바구니</h3><button class="x" data-dclose aria-label="닫기">×</button></div>
-      <div class="drawer-list" id="cartList"></div>
-      <div class="drawer-foot">
+  <div class="sheet cart" id="cart" aria-hidden="true">
+    <div class="dim" data-close></div>
+    <div class="sheet-panel">
+      <button class="close" data-close aria-label="닫기">✕</button>
+      <h3 class="sheet-title">장바구니</h3>
+      <div class="cart-list" id="cartList"></div>
+      <div class="cart-foot">
         <div class="sum"><span>합계</span><b id="cartTotal">0원</b></div>
-        <button class="btn-solid" id="checkout">주문하기</button>
-        <p class="muted small">온라인 결제 · 배송은 곧 오픈됩니다</p>
+        <button class="btn btn-red btn-lg btn-block" id="checkout">주문하기</button>
       </div>
     </div>
-  </aside>
+  </div>
 
   <!-- 커밍순 -->
-  <div class="modal soon" id="soon" aria-hidden="true">
-    <div class="modal-dim" data-sclose></div>
-    <div class="modal-panel small">
-      <button class="x" data-sclose aria-label="닫기">×</button>
-      <p class="eyebrow">Coming Soon</p>
-      <h3 class="display sm">온라인 주문을 준비 중입니다</h3>
-      <div class="soon-steps">
-        <div><b>배송</b><span>새벽배송 · 택배</span></div>
-        <div><b>결제</b><span>카드 · 간편결제</span></div>
-        <div><b>픽업</b><span>매장 예약 픽업</span></div>
+  <div class="sheet soon" id="soon" aria-hidden="true">
+    <div class="dim" data-close></div>
+    <div class="sheet-panel">
+      <button class="close" data-close aria-label="닫기">✕</button>
+      <p class="kicker red">Coming Soon</p>
+      <h3 class="sheet-title">온라인 주문을 준비 중이에요</h3>
+      <div class="soon-grid">
+        <div><b>택배 배송</b><span>전국 배송</span></div>
+        <div><b>온라인 결제</b><span>카드 · 간편결제</span></div>
+        <div><b>매장 픽업</b><span>예약 후 픽업</span></div>
       </div>
       <p class="muted">지금은 매장에서 만나보실 수 있어요. 담아두신 장바구니는 그대로 보관됩니다.</p>
-      <button class="btn-solid" data-sclose>확인</button>
+      <button class="btn btn-dark btn-lg btn-block" data-close>확인</button>
     </div>
   </div>
 
@@ -213,6 +225,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="js/products.js"></script>
   <script src="js/app.js"></script>
 </body>

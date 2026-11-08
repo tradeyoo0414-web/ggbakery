@@ -1,198 +1,196 @@
 const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const won = (n) => n.toLocaleString('ko-KR') + '원';
 const store = {
   get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
+const BREAD = ['grain', 'loaf', 'rustic', 'salt', 'savory', 'sweet'];
+const TAGS = ['통호밀100%', '무설탕', '통호밀', '견과', '치즈', '크림', '홀케이크'];
+const byId = Object.fromEntries(PRODUCTS.map((p) => [p.id, p]));
 
-// 로더
-window.addEventListener('load', () => setTimeout(() => $('#loader').classList.add('done'), 600));
-
-// 부드러운 스크롤 (Lenis)
-const lenis = window.Lenis ? new Lenis({ duration: 1.2, smoothWheel: true }) : null;
+// ---------- 스크롤 (Lenis) ----------
+const lenis = window.Lenis ? new Lenis({ duration: 1.1, smoothWheel: true }) : null;
 if (lenis) {
   const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
   requestAnimationFrame(raf);
-  document.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
-    const t = $(a.getAttribute('href'));
-    if (!t) return;
-    e.preventDefault();
-    document.body.classList.remove('menu-open');
-    lenis.scrollTo(t, { offset: a.getAttribute('href') === '#top' ? 0 : -60 });
-  }));
+  if (window.ScrollTrigger) lenis.on('scroll', ScrollTrigger.update);
 }
+function scrollToEl(el) {
+  const y = el.getBoundingClientRect().top + window.scrollY - 80;
+  lenis ? lenis.scrollTo(y) : window.scrollTo({ top: y, behavior: 'smooth' });
+}
+$$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+  const t = $(a.getAttribute('href'));
+  if (!t) return;
+  e.preventDefault();
+  document.body.classList.remove('menu-open');
+  a.getAttribute('href') === '#top' ? (lenis ? lenis.scrollTo(0) : scrollTo(0, 0)) : scrollToEl(t);
+}));
 
-// 네비게이션
+// ---------- 네비 ----------
 const nav = $('#nav');
-const onScroll = () => nav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.8);
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
 $('#burger').addEventListener('click', () => document.body.classList.toggle('menu-open'));
-$('#menu').addEventListener('click', () => document.body.classList.remove('menu-open'));
 
-// 매장 사진: 파일이 있으면 그라데이션 위에 덮어씀
-document.querySelectorAll('.swiper-slide[data-bg]').forEach((s) => {
-  const img = new Image();
-  img.onload = () => { $('.slide-bg', s).style.backgroundImage = `url(${s.dataset.bg})`; };
-  img.src = s.dataset.bg;
-});
-
-// 히어로 슬라이더 (Swiper)
+// ---------- 히어로 슬라이더 (Swiper) ----------
 new Swiper('.hero-swiper', {
-  effect: 'fade', fadeEffect: { crossFade: true }, speed: 1600, loop: true,
-  autoplay: { delay: 6000, disableOnInteraction: false },
-  pagination: { el: '.swiper-pagination', clickable: true },
-  navigation: { prevEl: '.hero-prev', nextEl: '.hero-next' },
-  keyboard: true,
-  on: { slideChange(sw) { $('#heroCur').textContent = String(sw.realIndex + 1).padStart(2, '0'); } },
+  loop: true, speed: 900, effect: 'fade', fadeEffect: { crossFade: true },
+  autoplay: { delay: 4500, disableOnInteraction: false },
+  pagination: { el: '.hero-dots', clickable: true },
 });
 
-// 스크롤 등장 애니메이션
-const io = new IntersectionObserver((es) => es.forEach((e) => {
-  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-}), { threshold: 0.15 });
-document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+// ---------- 애니메이션 (GSAP) ----------
+if (window.gsap && window.ScrollTrigger && !location.search.includes('static') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.hero-title span', { yPercent: 110, opacity: 0, duration: 1, stagger: .12, ease: 'expo.out', delay: .1 });
+  gsap.from(['.hero .kicker', '.hero-sub', '.hero-cta'], { y: 24, opacity: 0, duration: .9, stagger: .1, ease: 'power3.out', delay: .45 });
+  gsap.from('.hero-media', { scale: .94, opacity: 0, duration: 1.2, ease: 'expo.out' });
+  gsap.from('.sticker', { scale: 0, rotate: -90, duration: 1, ease: 'back.out(1.7)', delay: .8 });
+  $$('.reveal').forEach((el) => gsap.from(el, { y: 50, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  gsap.from('.feature-img img', { scale: 1.25, ease: 'none', scrollTrigger: { trigger: '.feature', start: 'top bottom', end: 'bottom top', scrub: true } });
+  $$('[data-count]').forEach((el) => {
+    const o = { v: 0 };
+    gsap.to(o, { v: +el.dataset.count, duration: 1.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%' }, onUpdate: () => { el.textContent = Math.round(o.v); } });
+  });
+  gsap.from('.wordmark', { yPercent: 40, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+} else {
+  $$('[data-count]').forEach((el) => { el.textContent = el.dataset.count; });
+}
 
-// ---------- 샵 ----------
-const TAGS = ['통호밀100%', '밀가루0%', '무설탕', '통호밀', '견과', '치즈', '크림', '홀케이크'];
-const BREAD = ['grain', 'loaf', 'rustic', 'salt', 'savory', 'sweet'];
+// ---------- 메뉴 ----------
 const state = { cat: 'all', tags: new Set(), q: '', sort: 'default' };
+const tone = (p) => 't' + (PRODUCTS.indexOf(p) % 4);
+const thumb = (p, badge = false) => `<div class="thumb">${badge && p.tags.includes('베스트') ? '<span class="badge">BEST</span>' : ''}${
+  p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : `<div class="ph ${tone(p)}">${p.name}</div>`}</div>`;
 
-const thumb = (p) => `
-  <div class="thumb">
-    <div class="ph ph-${p.cat}"><b>${CATEGORIES[p.cat].en}</b><i>GGBAKERY</i></div>
-    ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.remove()">` : ''}
-  </div>`;
+// 카테고리 아이콘 (사진 있는 첫 상품)
+$('#catIcons').innerHTML = Object.entries(CATEGORIES).map(([k, c]) => {
+  const p = PRODUCTS.find((x) => x.cat === k && x.img);
+  return `<button class="cat" data-jump="${k}"><span class="ci">${p ? `<img src="${p.img}" alt="" loading="lazy">` : ''}</span>${c.name.split(' · ')[0]}</button>`;
+}).join('');
+document.addEventListener('click', (e) => {
+  const j = e.target.closest('[data-jump]');
+  if (!j) return;
+  state.cat = j.dataset.jump; render();
+  scrollToEl($('#menu'));
+});
 
-function renderTabs() {
-  const items = [['all', '전체', PRODUCTS.length], ...Object.entries(CATEGORIES).map(([k, c]) => [k, c.name, PRODUCTS.filter((p) => p.cat === k).length])];
-  $('#catTabs').innerHTML = items.map(([k, n, c]) => `<button data-cat="${k}" class="${state.cat === k ? 'on' : ''}">${n}<small>${c}</small></button>`).join('');
-  $('#tagFilter').innerHTML = TAGS.map((t) => `<button data-tag="${t}" class="${state.tags.has(t) ? 'on' : ''}">${t}</button>`).join('');
-}
-
-function filtered() {
+function render() {
+  const all = [['all', '전체', PRODUCTS.length], ...Object.entries(CATEGORIES).map(([k, c]) => [k, c.name, PRODUCTS.filter((p) => p.cat === k).length])];
+  $('#tabs').innerHTML = all.map(([k, n, c]) => `<button data-cat="${k}" class="${state.cat === k ? 'on' : ''}">${n}<small>${c}</small></button>`).join('');
+  $('#chips').innerHTML = TAGS.map((t) => `<button data-tag="${t}" class="${state.tags.has(t) ? 'on' : ''}">${t}</button>`).join('');
   const q = state.q.trim().toLowerCase();
-  let list = PRODUCTS.filter((p) =>
-    (state.cat === 'all' || p.cat === state.cat) &&
-    [...state.tags].every((t) => p.tags.includes(t)) &&
-    (!q || (p.name + p.desc).toLowerCase().includes(q)));
-  const by = {
-    best: (a, b) => b.tags.includes('베스트') - a.tags.includes('베스트'),
-    low: (a, b) => a.price - b.price,
-    high: (a, b) => b.price - a.price,
-  }[state.sort];
-  return by ? [...list].sort(by) : list;
-}
-
-function renderGrid() {
-  const list = filtered();
-  $('#resultCount').textContent = `${list.length}개의 빵`;
-  $('#grid').innerHTML = list.length ? list.map((p, i) => `
-    <article class="card" data-id="${p.id}" style="animation-delay:${Math.min(i, 12) * 40}ms">
-      ${thumb(p).replace('<div class="thumb">', `<div class="thumb"><div class="badges">${p.tags.includes('베스트') ? '<span class="best">BEST</span>' : ''}</div><div class="quick">자세히 보기</div>`)}
-      <div class="card-info">
+  let list = PRODUCTS.filter((p) => (state.cat === 'all' || p.cat === state.cat)
+    && [...state.tags].every((t) => p.tags.includes(t))
+    && (!q || (p.name + p.desc).toLowerCase().includes(q)));
+  const sorter = { best: (a, b) => b.tags.includes('베스트') - a.tags.includes('베스트'), low: (a, b) => a.price - b.price, high: (a, b) => b.price - a.price }[state.sort];
+  if (sorter) list = [...list].sort(sorter);
+  $('#count').textContent = `${list.length}개의 메뉴`;
+  $('#grid').innerHTML = list.length ? list.map((p) => `
+    <article class="card" data-id="${p.id}">
+      ${thumb(p, true)}
+      <div class="card-body">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
-        <span class="price">${won(p.price)}</span>
-        <div class="chips">${p.tags.filter((t) => TAGS.includes(t)).slice(0, 3).map((t) => `<span>${t}</span>`).join('')}</div>
+        <div class="card-foot"><b>${won(p.price)}</b><button class="add" data-add="${p.id}" aria-label="${p.name} 담기">+</button></div>
       </div>
-    </article>`).join('') : '<p class="empty">조건에 맞는 빵이 없어요. 필터를 바꿔보세요.</p>';
+    </article>`).join('') : '<p class="empty">조건에 맞는 메뉴가 없어요</p>';
+  if (window.gsap && !location.search.includes('static')) gsap.from('#grid .card', { y: 30, opacity: 0, duration: .6, stagger: .03, ease: 'power3.out', clearProps: 'all' });
 }
-
-$('#catTabs').addEventListener('click', (e) => {
-  const b = e.target.closest('button'); if (!b) return;
-  state.cat = b.dataset.cat; renderTabs(); renderGrid();
+$('#tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-cat]'); if (b) { state.cat = b.dataset.cat; render(); } });
+$('#chips').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-tag]'); if (!b) return;
+  state.tags.has(b.dataset.tag) ? state.tags.delete(b.dataset.tag) : state.tags.add(b.dataset.tag); render();
 });
-$('#tagFilter').addEventListener('click', (e) => {
-  const b = e.target.closest('button'); if (!b) return;
-  const t = b.dataset.tag;
-  state.tags.has(t) ? state.tags.delete(t) : state.tags.add(t);
-  renderTabs(); renderGrid();
+$('#search').addEventListener('input', (e) => { state.q = e.target.value; render(); });
+$('#sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
+$('#grid').addEventListener('click', (e) => {
+  const add = e.target.closest('[data-add]');
+  if (add) { addCart(add.dataset.add, 1); return; }
+  const c = e.target.closest('.card'); if (c) openDetail(c.dataset.id);
 });
-$('#search').addEventListener('input', (e) => { state.q = e.target.value; renderGrid(); });
-$('#sort').addEventListener('change', (e) => { state.sort = e.target.value; renderGrid(); });
-$('#grid').addEventListener('click', (e) => { const c = e.target.closest('.card'); if (c) openDetail(c.dataset.id); });
 
-// ---------- 모달 공통 ----------
+// ---------- 시트 공통 ----------
 function toggle(el, on) {
   el.classList.toggle('open', on);
-  el.setAttribute('aria-hidden', !on);
-  const any = document.querySelector('.modal.open, .drawer.open');
+  el.setAttribute('aria-hidden', String(!on));
+  const any = $('.sheet.open');
   document.body.classList.toggle('lock', !!any);
-  lenis && (any ? lenis.stop() : lenis.start());
+  if (lenis) any ? lenis.stop() : lenis.start();
 }
-const modal = $('#modal'), drawer = $('#drawer'), soon = $('#soon');
-modal.addEventListener('click', (e) => e.target.closest('[data-close]') && toggle(modal, false));
-drawer.addEventListener('click', (e) => e.target.closest('[data-dclose]') && toggle(drawer, false));
-soon.addEventListener('click', (e) => e.target.closest('[data-sclose]') && toggle(soon, false));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') [soon, modal, drawer].forEach((m) => toggle(m, false)); });
+$$('.sheet').forEach((s) => s.addEventListener('click', (e) => { if (e.target.closest('[data-close]')) toggle(s, false); }));
+addEventListener('keydown', (e) => { if (e.key === 'Escape') $$('.sheet.open').forEach((s) => toggle(s, false)); });
 
 // ---------- 상세 ----------
 function openDetail(id) {
-  const p = PRODUCTS.find((x) => x.id === id);
-  const c = CATEGORIES[p.cat];
+  const p = byId[id], c = CATEGORIES[p.cat];
   let qty = 1;
-  $('#modalBody').innerHTML = `
+  const feats = p.tags.filter((t) => t !== '베스트');
+  $('#sheetBody').innerHTML = `<div class="detail">
     ${thumb(p)}
-    <div class="detail">
-      <p class="cat">${c.en} · ${c.name}</p>
-      <h2>${p.name}</h2>
-      <p class="price">${won(p.price)}</p>
-      <p class="desc">${p.desc}</p>
-      <dl class="spec">
-        ${BREAD.includes(p.cat) ? '<div><dt>숙성</dt><dd>16시간 저온숙성</dd></div>' : ''}
-        <div><dt>굽는 시간</dt><dd>하루에 한 번, 그날 구운 빵만</dd></div>
-        ${p.tags.some((t) => t !== '베스트') ? `<div><dt>특징</dt><dd>${p.tags.filter((t) => t !== '베스트').join(' · ')}</dd></div>` : ''}
-        <div><dt>알레르기</dt><dd>원재료·알레르기 정보는 매장에 문의해 주세요</dd></div>
-      </dl>
-      <div class="gut"><b>Why it's gentle</b>${c.note}</div>
-      <div class="buy">
-        <div class="qty"><button data-q="-1">−</button><span id="mq">1</span><button data-q="1">+</button></div>
-        <button class="btn-solid" id="addCart">장바구니 담기</button>
-      </div>
-    </div>`;
-  $('.buy', modal).addEventListener('click', (e) => {
+    <p class="cat-name">${c.en}</p>
+    <h2>${p.name}</h2>
+    <p class="price">${won(p.price)}</p>
+    <p class="desc">${p.desc}</p>
+    <dl class="facts">
+      ${BREAD.includes(p.cat) ? '<div><dt>숙성</dt><dd>16시간 저온숙성</dd></div>' : ''}
+      <div><dt>굽는 시간</dt><dd>하루 한 번</dd></div>
+      ${feats.length ? `<div><dt>특징</dt><dd>${feats.join(' · ')}</dd></div>` : ''}
+      <div><dt>알레르기</dt><dd>매장 문의</dd></div>
+    </dl>
+    <p class="why">${c.note}</p>
+    <div class="buy">
+      <div class="qty"><button data-q="-1" aria-label="빼기">−</button><span id="dq">1</span><button data-q="1" aria-label="더하기">+</button></div>
+      <button class="btn btn-red btn-lg" id="dAdd">${won(p.price)} 담기</button>
+    </div>
+  </div>`;
+  $('.buy').addEventListener('click', (e) => {
     const q = e.target.closest('[data-q]');
-    if (q) { qty = Math.max(1, qty + +q.dataset.q); $('#mq').textContent = qty; }
-    if (e.target.id === 'addCart') { addCart(p.id, qty); toggle(modal, false); }
+    if (q) { qty = Math.max(1, qty + +q.dataset.q); $('#dq').textContent = qty; $('#dAdd').textContent = `${won(p.price * qty)} 담기`; }
+    if (e.target.closest('#dAdd')) { addCart(p.id, qty); toggle($('#sheet'), false); }
   });
-  $('.modal-panel', modal).scrollTop = 0;
-  toggle(modal, true);
+  $('#sheet .sheet-panel').scrollTop = 0;
+  toggle($('#sheet'), true);
 }
 
 // ---------- 장바구니 ----------
 let cart = store.get('gg-cart', {});
+for (const id in cart) if (!byId[id]) delete cart[id];
 function saveCart() { store.set('gg-cart', cart); renderCart(); }
-function addCart(id, n) { cart[id] = (cart[id] || 0) + n; saveCart(); toast('장바구니에 담았어요'); }
+function addCart(id, n) {
+  cart[id] = (cart[id] || 0) + n; saveCart();
+  const b = $('#cartCount'); b.classList.add('bump'); setTimeout(() => b.classList.remove('bump'), 250);
+  toast(`${byId[id].name} 담았어요`);
+}
 function renderCart() {
-  const ids = Object.keys(cart).filter((id) => PRODUCTS.some((p) => p.id === id));
-  const count = ids.reduce((s, id) => s + cart[id], 0);
-  $('#cartCount').textContent = count;
-  $('#cartTotal').textContent = won(ids.reduce((s, id) => s + PRODUCTS.find((p) => p.id === id).price * cart[id], 0));
+  const ids = Object.keys(cart);
+  $('#cartCount').textContent = ids.reduce((s, id) => s + cart[id], 0);
+  $('#cartTotal').textContent = won(ids.reduce((s, id) => s + byId[id].price * cart[id], 0));
   $('#cartList').innerHTML = ids.length ? ids.map((id) => {
-    const p = PRODUCTS.find((x) => x.id === id);
-    return `<div class="ci" data-id="${id}">
-      <div class="ph ph-${p.cat}">${p.img ? `<img src="${p.img}" alt="">` : ''}</div>
-      <div><h4>${p.name}</h4><small>${won(p.price)}</small><br><button class="rm">삭제</button></div>
-      <div class="qty"><button data-q="-1">−</button><span>${cart[id]}</span><button data-q="1">+</button></div>
+    const p = byId[id];
+    return `<div class="line" data-id="${id}">${thumb(p)}
+      <div><h4>${p.name}</h4><small>${won(p.price * cart[id])}</small></div>
+      <div class="qty"><button data-q="-1" aria-label="빼기">−</button><span>${cart[id]}</span><button data-q="1" aria-label="더하기">+</button></div>
     </div>`;
   }).join('') : '<p class="empty">장바구니가 비어 있어요</p>';
 }
 $('#cartList').addEventListener('click', (e) => {
-  const row = e.target.closest('.ci'); if (!row) return;
-  const id = row.dataset.id, q = e.target.closest('[data-q]');
-  if (q) cart[id] += +q.dataset.q;
-  if (e.target.closest('.rm') || cart[id] < 1) delete cart[id];
+  const row = e.target.closest('.line'), q = e.target.closest('[data-q]');
+  if (!row || !q) return;
+  const id = row.dataset.id;
+  cart[id] += +q.dataset.q;
+  if (cart[id] < 1) delete cart[id];
   saveCart();
 });
-$('#cartOpen').addEventListener('click', () => toggle(drawer, true));
-$('#checkout').addEventListener('click', () => toggle(soon, true));
-$('#notifyForm').addEventListener('submit', (e) => { e.preventDefault(); e.target.reset(); toast('오픈 알림 신청이 완료됐어요'); });
+$('#cartOpen').addEventListener('click', () => toggle($('#cart'), true));
+$('#checkout').addEventListener('click', () => { toggle($('#cart'), false); toggle($('#soon'), true); });
+$('#notifyForm').addEventListener('submit', (e) => { e.preventDefault(); e.target.reset(); toast('오픈 알림 신청 완료!'); });
 
 let tt;
 function toast(msg) {
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2200);
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-renderTabs(); renderGrid(); renderCart();
+render(); renderCart();
