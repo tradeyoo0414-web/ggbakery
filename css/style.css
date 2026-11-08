@@ -175,6 +175,13 @@ img { display: block; max-width: 100%; }
 .store h3 { font-weight: 900; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -.04em; }
 .store p { color: var(--rye); font-weight: 500; margin-bottom: 14px; }
 
+.stores-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+.social { display: flex; gap: 8px; flex-wrap: wrap; }
+.social a { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 999px; background: var(--paper); border: 1.5px solid var(--line); font-weight: 800; font-size: .9rem; transition: background .2s, color .2s, border-color .2s; }
+.social a:hover { background: var(--crust); color: var(--flour); border-color: var(--crust); }
+.foot-social { margin-top: 18px; }
+.foot-social a { background: transparent; border-color: rgba(43, 27, 20, .3); }
+
 /* footer */
 .footer { background: var(--ochre); color: var(--crust); padding-top: 72px; overflow: hidden; }
 .foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
