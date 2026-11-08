@@ -54,13 +54,14 @@ const io = new IntersectionObserver((es) => es.forEach((e) => {
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 // ---------- 샵 ----------
-const TAGS = ['우리밀', '비건', '무설탕', '저당', '글루텐프리', '고식이섬유', '무유제품'];
+const TAGS = ['통호밀100%', '밀가루0%', '무설탕', '통호밀', '견과', '치즈', '크림', '홀케이크'];
+const BREAD = ['grain', 'loaf', 'rustic', 'salt', 'savory', 'sweet'];
 const state = { cat: 'all', tags: new Set(), q: '', sort: 'default' };
 
 const thumb = (p) => `
   <div class="thumb">
-    <div class="ph ph-${p.cat}"><b>${p.en}</b><i>GGBAKERY</i></div>
-    <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.remove()">
+    <div class="ph ph-${p.cat}"><b>${CATEGORIES[p.cat].en}</b><i>GGBAKERY</i></div>
+    ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.remove()">` : ''}
   </div>`;
 
 function renderTabs() {
@@ -74,10 +75,9 @@ function filtered() {
   let list = PRODUCTS.filter((p) =>
     (state.cat === 'all' || p.cat === state.cat) &&
     [...state.tags].every((t) => p.tags.includes(t)) &&
-    (!q || (p.name + p.en + p.desc + p.ingredients).toLowerCase().includes(q)));
+    (!q || (p.name + p.desc).toLowerCase().includes(q)));
   const by = {
     best: (a, b) => b.tags.includes('베스트') - a.tags.includes('베스트'),
-    new: (a, b) => b.tags.includes('신메뉴') - a.tags.includes('신메뉴'),
     low: (a, b) => a.price - b.price,
     high: (a, b) => b.price - a.price,
   }[state.sort];
@@ -89,7 +89,7 @@ function renderGrid() {
   $('#resultCount').textContent = `${list.length}개의 빵`;
   $('#grid').innerHTML = list.length ? list.map((p, i) => `
     <article class="card" data-id="${p.id}" style="animation-delay:${Math.min(i, 12) * 40}ms">
-      ${thumb(p).replace('<div class="thumb">', `<div class="thumb"><div class="badges">${p.tags.includes('베스트') ? '<span class="best">BEST</span>' : ''}${p.tags.includes('신메뉴') ? '<span>NEW</span>' : ''}</div><div class="quick">자세히 보기</div>`)}
+      ${thumb(p).replace('<div class="thumb">', `<div class="thumb"><div class="badges">${p.tags.includes('베스트') ? '<span class="best">BEST</span>' : ''}</div><div class="quick">자세히 보기</div>`)}
       <div class="card-info">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
@@ -137,15 +137,13 @@ function openDetail(id) {
     <div class="detail">
       <p class="cat">${c.en} · ${c.name}</p>
       <h2>${p.name}</h2>
-      <p class="en">${p.en}</p>
       <p class="price">${won(p.price)}</p>
       <p class="desc">${p.desc}</p>
       <dl class="spec">
-        <div><dt>발효 시간</dt><dd>${p.hours}시간 저온숙성</dd></div>
-        <div><dt>주요 원재료</dt><dd>${p.ingredients}</dd></div>
-        <div><dt>특징</dt><dd>${p.tags.filter((t) => t !== '베스트' && t !== '신메뉴').join(' · ') || '정직한 기본 재료'}</dd></div>
-        <div><dt>알레르기</dt><dd>${p.allergen} 함유</dd></div>
-        <div><dt>보관</dt><dd>실온 2일 · 냉동 2주 (해동 후 오븐 3분)</dd></div>
+        ${BREAD.includes(p.cat) ? '<div><dt>숙성</dt><dd>16시간 저온숙성</dd></div>' : ''}
+        <div><dt>굽는 시간</dt><dd>하루에 한 번, 그날 구운 빵만</dd></div>
+        ${p.tags.some((t) => t !== '베스트') ? `<div><dt>특징</dt><dd>${p.tags.filter((t) => t !== '베스트').join(' · ')}</dd></div>` : ''}
+        <div><dt>알레르기</dt><dd>원재료·알레르기 정보는 매장에 문의해 주세요</dd></div>
       </dl>
       <div class="gut"><b>Why it's gentle</b>${c.note}</div>
       <div class="buy">
@@ -174,7 +172,7 @@ function renderCart() {
   $('#cartList').innerHTML = ids.length ? ids.map((id) => {
     const p = PRODUCTS.find((x) => x.id === id);
     return `<div class="ci" data-id="${id}">
-      <div class="ph ph-${p.cat}"></div>
+      <div class="ph ph-${p.cat}">${p.img ? `<img src="${p.img}" alt="">` : ''}</div>
       <div><h4>${p.name}</h4><small>${won(p.price)}</small><br><button class="rm">삭제</button></div>
       <div class="qty"><button data-q="-1">−</button><span>${cart[id]}</span><button data-q="1">+</button></div>
     </div>`;

@@ -133,14 +133,15 @@ img { display: block; max-width: 100%; }
 .ph { display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; color: var(--cream); }
 .ph b { font-family: var(--serif-en); font-style: italic; font-weight: 400; font-size: clamp(1.1rem, 1.8vw, 1.5rem); line-height: 1.2; }
 .ph i { font-style: normal; font-size: .7rem; letter-spacing: .3em; opacity: .6; margin-top: 6px; text-transform: uppercase; }
-.ph-sourdough { background: radial-gradient(circle at 70% 25%, #9b7a52, #3d2b1c 70%); }
-.ph-wholegrain { background: radial-gradient(circle at 70% 25%, #7c6a4e, #2e261c 70%); }
-.ph-rice { background: radial-gradient(circle at 70% 25%, #d7c7a7, #8e7a5a 75%); }
-.ph-vegan { background: radial-gradient(circle at 70% 25%, #8e9a6e, #353b26 70%); }
-.ph-nosugar { background: radial-gradient(circle at 70% 25%, #b69e7c, #4c3d2c 70%); }
-.ph-baguette { background: radial-gradient(circle at 70% 25%, #c39a5f, #4d3519 70%); }
+.ph-grain { background: radial-gradient(circle at 70% 25%, #8a6d4c, #33261a 70%); }
+.ph-loaf { background: radial-gradient(circle at 70% 25%, #d2b68c, #7a5a36 75%); }
+.ph-rustic { background: radial-gradient(circle at 70% 25%, #c39a5f, #4d3519 70%); }
+.ph-salt { background: radial-gradient(circle at 70% 25%, #d9b47a, #6e4a22 70%); }
+.ph-savory { background: radial-gradient(circle at 70% 25%, #a7865a, #3e2e1e 70%); }
+.ph-sweet { background: radial-gradient(circle at 70% 25%, #d8bfa0, #7a5b42 75%); }
 .ph-bake { background: radial-gradient(circle at 70% 25%, #c79f80, #5c3b2a 70%); }
-.ph-meal { background: radial-gradient(circle at 70% 25%, #a78c6a, #3e3022 70%); }
+.ph-macaron { background: radial-gradient(circle at 70% 25%, #e2c6c0, #8a6460 75%); }
+.ph-cake { background: radial-gradient(circle at 70% 25%, #efe2cc, #9a8060 75%); }
 .badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 2; }
 .badges span { background: var(--paper); color: var(--ink); font-size: .68rem; padding: 3px 8px; letter-spacing: .05em; }
 .badges span.best { background: var(--gold); color: #fff; }
@@ -214,7 +215,8 @@ img { display: block; max-width: 100%; }
 .drawer-head h3 { font-family: var(--serif-ko); font-weight: 400; }
 .drawer-list { flex: 1; overflow: auto; padding: 8px 28px; }
 .ci { display: grid; grid-template-columns: 64px 1fr auto; gap: 14px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.ci .ph { position: static; height: 80px; padding: 0; }
+.ci .ph { position: relative; height: 80px; padding: 0; overflow: hidden; }
+.ci .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ci h4 { font-weight: 400; font-size: .92rem; }
 .ci small { color: var(--muted); }
 .ci .qty button { width: 28px; height: 30px; }
