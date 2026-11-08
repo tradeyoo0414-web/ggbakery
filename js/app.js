@@ -193,4 +193,10 @@ function toast(msg) {
   clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
+// SNS QR 코드 (qrcode-generator)
+if (window.qrcode) $$('[data-qr]').forEach((el) => {
+  const q = qrcode(0, 'M'); q.addData(el.dataset.qr); q.make();
+  $('.qr-code', el).innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+});
+
 render(); renderCart();
